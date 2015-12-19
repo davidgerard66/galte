@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Gites ruraux à Font-Romeu en cerdagne{% endblock %}</title>
+
+    <meta name="keywords" content="{% block motsCles %}{% endblock %}">
+    <meta name="description" content="{% block description %}{% endblock %}">
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}" />
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+
+
+
+
+<div class="navbar  navbar-fixed-top   span10 automargin containergite ">
+    <div class="navbar-default" >
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="brand" href="#">{{ 'Gites Galté' | trans}}</a>
+
+            <div class="nav-collapse collapse">
+                {%  block listegites %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    {%  block body %}{% endblock %}
+
+
+
+
+    <div class="automargin gite_vague">   </div>
+
+
+    <footer id="footer" class="navbar-fixed-bottom span10 automargin">
+
+        <div class="">
+
+            Site réalisé par DG Informatique - webmaster - © {{ "now"|date('Y') }} DG Informatique. © {{ "now"|date('Y') }} Gîtes Galté - Tous droits réservés
+            <br>
+            Plan du site : <a href="">Les Rosiers, gîte à Font-romeu Odeillo</a> | <a href="">Les Jonquilles Gîte Saint-Pierre dels Forcats</a> | <a href="">Les Coquelicots Gîte Saint-Pierre dels Forcats</a>
+
+
+
+            <!--
+                        <ul class="nav nav-stacked">
+                            {% render(controller('PagesBundle:Pages:menu')) %}
+
+                        </ul>-->
+
+        </div>
+
+
+
+    </footer>
+
+</div>
+
+<script src="{{ asset('js/jquery-1.10.0.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+<script src="{{ asset('js/main.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html

@@ -1,0 +1,15 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block description %} les gites Galté à font-romeu {% endblock %}
+
+
+{%  block body %}
+<!-- Carousel
+================================================== -->
+
+
+{{  render(controller('GitesBundle:Slides:Carousel')) }}
+
+
+<!-- /.carousel -->
+{% endblock %}

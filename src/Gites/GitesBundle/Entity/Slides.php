@@ -1,0 +1,593 @@
+<?php
+
+namespace Gites\GitesBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table()
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @ORM\Entity(repositoryClass="Gites\GitesBundle\Repository\SlidesRepository")
+ */
+class Slides
+{
+
+    private $temp;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    public $id;
+
+    /**
+     * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
+     *
+     */
+    private $deletedAt;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created; // sur les extension doctrine, pas bespoin def aire les getter et les setters, sauf si on veut recup la data dans le code il faudra les getter et setter
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=false)
+     */
+    private $genre;
+
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $file;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     */
+    public $titre;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    public $soustitre;
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     */
+    public $url;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     */
+    public $lien;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     *
+     */
+    public $lienTarget;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     *
+     */
+    public $lienStyle;
+
+    /**
+     * @ORM\Column(name="Date_parution_debut", type="date")
+     *
+     */
+    public $dateParutionDebut;
+
+    /**
+     * @ORM\Column(name="Date_parution_fin", type="date")
+     *
+     */
+    public $dateParutionFin;
+
+
+
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     */
+    public $ordre; // ordre du slide par rapport aux autres
+
+
+    /**
+     * @ORM\Column(type="string", length=250,nullable=true)
+     *
+     */
+    public $legendePhoto;
+
+    /**
+     * @ORM\Column(type="string", length=250,nullable=true)
+     *
+     */
+    public $sousLegendePhoto;
+
+
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'photos/slides';
+    }
+
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+
+        return $this->file;
+    }
+
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $filename = $this->getFile()->getClientOriginalName();
+            $filename = $this->normalize($filename);
+
+           // $this->path = $filename.'.'.$this->getFile()->guessExtension();
+            $this->path = $filename;
+        }
+
+
+    }
+
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+       //var_dump($this->getUploadRootDir());
+        //var_dump($this->path);
+        //die();
+         $this->getFile()->move($this->getUploadRootDir(), $this->path);
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir().'/'.$this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+        $this->file = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        $file = $this->getAbsolutePath();
+        if ($file) {
+            unlink($file);
+        }
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Media
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+
+
+
+
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     *
+     * @return Slides
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set soustitre
+     *
+     * @param string $soustitre
+     *
+     * @return Slides
+     */
+    public function setSoustitre($soustitre)
+    {
+        $this->soustitre = $soustitre;
+
+        return $this;
+    }
+
+    /**
+     * Get soustitre
+     *
+     * @return string
+     */
+    public function getSoustitre()
+    {
+        return $this->soustitre;
+    }
+
+    /**
+     * Set lien
+     *
+     * @param string $lien
+     *
+     * @return Slides
+     */
+    public function setLien($lien)
+    {
+        $this->lien = $lien;
+
+        return $this;
+    }
+
+    /**
+     * Get lien
+     *
+     * @return string
+     */
+    public function getLien()
+    {
+        return $this->lien;
+    }
+
+    /**
+     * Set lienStyle
+     *
+     * @param string $lienStyle
+     *
+     * @return Slides
+     */
+    public function setLienStyle($lienStyle)
+    {
+        $this->lienStyle = $lienStyle;
+
+        return $this;
+    }
+
+    /**
+     * Get lienStyle
+     *
+     * @return string
+     */
+    public function getLienStyle()
+    {
+        return $this->lienStyle;
+    }
+
+    /**
+     * Set dateParutionDebut
+     *
+     * @param \DateTime $dateParutionDebut
+     *
+     * @return Slides
+     */
+    public function setDateParutionDebut($dateParutionDebut)
+    {
+        $this->dateParutionDebut = $dateParutionDebut;
+
+        return $this;
+    }
+
+    /**
+     * Get dateParutionDebut
+     *
+     * @return \DateTime
+     */
+    public function getDateParutionDebut()
+    {
+        return $this->dateParutionDebut;
+    }
+
+    /**
+     * Set dateParutionFin
+     *
+     * @param \DateTime $dateParutionFin
+     *
+     * @return Slides
+     */
+    public function setDateParutionFin($dateParutionFin)
+    {
+        $this->dateParutionFin = $dateParutionFin;
+
+        return $this;
+    }
+
+    /**
+     * Get dateParutionFin
+     *
+     * @return \DateTime
+     */
+    public function getDateParutionFin()
+    {
+        return $this->dateParutionFin;
+    }
+
+    /**
+     * Set ordre
+     *
+     * @param integer $ordre
+     *
+     * @return Slides
+     */
+    public function setOrdre($ordre)
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    /**
+     * Get ordre
+     *
+     * @return integer
+     */
+    public function getOrdre()
+    {
+        return $this->ordre;
+    }
+
+    public function normalize($name, $replacement = "-")
+    {
+        $entries = array('\\', '/', '?', ':', '*', '"', '>', ' ', '<', '|');
+        return str_replace($entries, $replacement, $name);
+    }
+
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Slides
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set lienTarget
+     *
+     * @param string $lienTarget
+     *
+     * @return Slides
+     */
+    public function setLienTarget($lienTarget)
+    {
+        $this->lienTarget = $lienTarget;
+
+        return $this;
+    }
+
+    /**
+     * Get lienTarget
+     *
+     * @return string
+     */
+    public function getLienTarget()
+    {
+        return $this->lienTarget;
+    }
+
+    /**
+     * Set genre
+     *
+     * @param string $genre
+     *
+     * @return Slides
+     */
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    /**
+     * Get genre
+     *
+     * @return string
+     */
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    /**
+     * Set legendePhoto
+     *
+     * @param string $legendePhoto
+     *
+     * @return Slides
+     */
+    public function setLegendePhoto($legendePhoto)
+    {
+        $this->legendePhoto = $legendePhoto;
+
+        return $this;
+    }
+
+    /**
+     * Get legendePhoto
+     *
+     * @return string
+     */
+    public function getLegendePhoto()
+    {
+        return $this->legendePhoto;
+    }
+
+    /**
+     * Set sousLegendePhoto
+     *
+     * @param string $sousLegendePhoto
+     *
+     * @return Slides
+     */
+    public function setSousLegendePhoto($sousLegendePhoto)
+    {
+        $this->sousLegendePhoto = $sousLegendePhoto;
+
+        return $this;
+    }
+
+    /**
+     * Get sousLegendePhoto
+     *
+     * @return string
+     */
+    public function getSousLegendePhoto()
+    {
+        return $this->sousLegendePhoto;
+    }
+}

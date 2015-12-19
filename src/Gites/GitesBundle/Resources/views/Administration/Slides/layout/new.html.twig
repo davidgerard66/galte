@@ -1,0 +1,15 @@
+{% extends "::layout/layoutAdmin.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% block body -%}
+    <h1>Ajouter un slide</h1>
+
+    {{ form(form) }}
+
+        <ul class="list-inline list-unstyled">
+    <li>
+        <a href="{{ path('admin_slides') }}" class="btn btn-primary">
+            Retour à la liste
+        </a>
+    </li>
+</ul>
+{% endblock %}

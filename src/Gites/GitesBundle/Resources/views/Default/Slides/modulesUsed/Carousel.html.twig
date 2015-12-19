@@ -1,0 +1,42 @@
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        {% for slide in slides %}
+        <li data-target="#myCarousel" data-slide-to="{{ loop.index - 1 }}"  {%  if loop.index == 1 %} class="active" {% endif %} ></li>
+        {% endfor %}
+    </ol>
+
+    <div class="carousel-inner" role="listbox">
+    {% for slide in slides %}
+
+        {%  if loop.index == 1 %}
+            <div class="item active">
+        {% else %}
+            <div class="item">
+        {% endif %}
+        <!--  <img class="first-slide" src="{# asset('photos/slides/' ~ slideImg) #}" alt="First slide">-->
+
+        <div class="masqueimg" title="title a remplir" style="background: url({{ pathDefault ~ slide.getWebPath }}); background-position: center top; background-size: cover">
+
+        </div>
+        <div class="container">
+            <div class="carousel-caption">
+                <h1>{{ slide.titre }} </h1>
+                <p>{{ slide.soustitre }}</p>
+                <p><a class="btn btn-lg {{ slide.lienstyle }}" href="{{ slide.url }}" target="{{ slide.lienTarget }}" role="button">{{ slide.lien }}</a></p>
+            </div>
+        </div>
+        </div>
+
+{% endfor %}
+
+            </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>

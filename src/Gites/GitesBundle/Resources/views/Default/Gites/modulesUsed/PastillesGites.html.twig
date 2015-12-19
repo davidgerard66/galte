@@ -1,0 +1,30 @@
+{% for gite in gites %}
+
+    <div class="col-lg-4">
+
+        <!-- vignette et titre -->
+        <a class='liengris'  href='{{ path('gite', {'slug':gite.slug}) }}' title="gite rural {{ gite.nom }} à {{ gite.ville }} classé {{ gite.epis }} épis">
+        <img class="img-circle pastillegite" src="{{ pathDefault ~ gite.vignette.getWebPath }}" alt="gite rural {{ gite.nom }} à {{ gite.ville }}" width="190"  height="190">
+        </a>
+        <h2>
+            <a class='liengris'  href='{{ path('gite', {'slug':gite.slug}) }}'>{{ gite.nom }}</a>
+        </h2>
+
+        <!-- classement : étoiles, épis -->
+        {% if gite.epis>0 %}
+            {% for i in range(1, gite.epis) %}
+                <i class='glyphicon glyphicon-star' title="ce gîte de France à {{ gite.ville }} est classé {{ gite.epis }} épis"></i>
+            {% endfor %}
+        {% else %}
+            <br>
+        {% endif %}
+        <!-- description courte -->
+        <p>{{ gite.descriptioncourte | raw }}</p>
+
+        <p><!-- bouton action -->
+            <a class="btn btn-success" href="{{ path('gite', {'slug':gite.slug}) }}" role="button">Découvrir le gîte</a>
+        </p>
+
+    </div><!-- /.col-lg-4 -->
+
+{% endfor %}

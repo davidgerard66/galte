@@ -1,0 +1,19 @@
+
+villes:
+    pattern: /villes/{cp}
+    defaults: {_controller: UtilisateursBundle:Utilisateurs:renvoiVillesparCp }
+    options:
+            expose: true
+            #pour fos js routing il fauit expose = true
+
+routingUtilisateursAdmin:
+    resource: "@UtilisateursBundle/Resources/config/routing/routingUtilisateursAdmin.yml"
+    prefix: /admin/utilisateurs
+
+factures:
+    pattern:  /profile/factures
+    defaults: { _controller: UtilisateursBundle:Utilisateurs:factures }
+
+facturePDF:
+    pattern:  /profile/factures/pdf/{id}
+    defaults: { _controller: UtilisateursBundle:Utilisateurs:facturePDF }

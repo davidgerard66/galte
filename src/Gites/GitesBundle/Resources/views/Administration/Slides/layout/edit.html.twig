@@ -1,0 +1,16 @@
+{% extends "::layout/layoutAdmin.html.twig" %}
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+{% block body -%}
+    <h1>Modifier le slide</h1>
+
+    {{ form(edit_form) }}
+
+        <ul class="list-unstyled list-inline">
+    <li>
+        <a href="{{ path('admin_slides') }}" class="btn btn-primary">
+            Retour à la liste
+        </a>
+    </li>
+    <li class="pull-right">{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

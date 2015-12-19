@@ -1,0 +1,71 @@
+
+.content-block-one {
+    padding: 30px;
+
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee;
+}
+
+.content-block-one h1, .content-block-one .h1 {
+    color: inherit;
+}
+
+.content-block-one p {
+    margin-bottom: 15px;
+    font-size: 21px;
+    font-weight: 200;
+}
+
+.content-block-one > hr {
+    border-top-color: #d5d5d5;
+}
+
+.container .content-block-one {
+    border-radius: 6px;
+}
+
+.content-block-one .container {
+    max-width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .content-block-one {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    .container .content-block-one {
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+
+    .content-block-one h1, .content-block-one .h1 {
+        font-size: 63px;
+    }
+}
+
+
+.content-space-one-old {
+    padding: 0px;
+    margin-bottom: 0px;
+    color: inherit;
+    background: url(http://127.0.0.1/sfprojects/gitesgalte/web/photos/slides/four_solaire_neige_fontromeu.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 190px;
+    padding-bottom: 190px;
+}
+
+
+
+.page-break {
+    width: 50%;
+    height: 3px;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+

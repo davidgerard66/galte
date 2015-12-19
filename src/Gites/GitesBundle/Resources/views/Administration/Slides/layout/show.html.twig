@@ -1,0 +1,57 @@
+{% extends "::layout/layoutAdmin.html.twig" %}
+
+{% block body -%}
+    <h1>{{ entity.genre }} " {{ entity.titre }} "</h1>
+
+    <table class="table table-striped table-hover">
+        <tbody>
+
+            <tr>
+                <th>Sous titre</th>
+                <td>{{ entity.soustitre }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ entity.url }}</td>
+            </tr>
+            <tr>
+                <th>Lien</th>
+                <td>{{ entity.lien }}</td>
+            </tr>
+            <tr>
+                <th>Lien style</th>
+                <td>{{ entity.lienStyle }}</td>
+            </tr>
+            <tr>
+                <th>Date parution début</th>
+                <td>{{ entity.dateParutionDebut|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Date parution fin</th>
+                <td>{{ entity.dateParutionFin|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Ordre</th>
+                <td>{{ entity.ordre }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ pathDefault ~ entity.getWebPath }}" width="600"></td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="list-unstyled list-inline">
+    <li>
+        <a href="{{ path('admin_slides') }}" class="btn btn-primary">
+            Retour à la liste
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_slides_edit', { 'id': entity.id }) }}" class="btn btn-success">
+            Modifier
+        </a>
+    </li>
+    <li class="pull-right">{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

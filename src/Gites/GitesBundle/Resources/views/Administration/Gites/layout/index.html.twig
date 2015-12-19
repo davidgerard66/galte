@@ -1,0 +1,67 @@
+{% extends "::layout/layoutadmin.html.twig" %}
+
+{% block body -%}
+    <h1>Les Gîtes Galté</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Ville</th>
+                <th>Epis</th>
+                <th>Pers.</th>
+                <th>Chbrs.</th>
+                <th>Surf.</th>
+                <th>Animaux</th>
+                <th>CV</th>
+                <th>Lien-dispo</th>
+                <th>Lien-tarif</th>
+                <th>Lien-plan</th>
+                <th>Equipements</th>
+                <th>Description</th>
+                <th>Description courte</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr style="text-overflow: ellipsis; ">
+
+                <td id="gite {{ entity.id }}"><p style="font-size:24px">{{ entity.nom }}
+                    <img src="{{ pathDefault ~ entity.vignette.getWebPath}}" width="150">
+                    </p>
+                </td>
+
+                <td>{{ entity.ville }}</td>
+                <td>{{ entity.epis }}</td>
+                <td>{{ entity.personnes }}</td>
+                <td>{{ entity.chambres }}</td>
+                <td>{{ entity.surface }}</td>
+                <td>{{ entity.animauxAcceptes }}</td>
+                <td>{{ entity.cvAcceptes }}</td>
+                <td><a href='{{ entity.urlDispo }}' target='_blank'>{{ entity.urlDispo }}</a></td>
+                <td><a href='{{ entity.urlTarif }}' target='_blank'>{{ entity.urlTarif }}</a></td>
+                <td><a href='{{ entity.urlMap }}' target='_blank'>{{ entity.urlMap }}</a></td>
+                <td>{{ entity.equipements | raw }}</td>
+                <td>{{ entity.description| raw }}</td>
+                <td>{{ entity.descriptioncourte| raw }}</td>
+                <td>
+
+                        <a href="{{ path('admin_gites_show', { 'id': entity.id }) }}"><i class="glyphicon glyphicon-info-sign"></i></a>
+
+                        <a href="{{ path('admin_gites_edit', { 'id': entity.id }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+       <!-- <li>
+            <a href="{{ path('admin_gites_new') }}">
+                Create a new entry
+            </a>
+        </li>-->
+    </ul>
+    {% endblock %}

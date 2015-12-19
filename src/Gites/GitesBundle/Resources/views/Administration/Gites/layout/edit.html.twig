@@ -1,0 +1,41 @@
+{% extends "::layout/layoutadmin.html.twig" %}
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+{% block body -%}
+    <h1>Modifier le gîte " {{ entity.nom }} "</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                {{ form(edit_form) }}
+                <br><br>
+                <ul class="list-unstyled list-inline">
+                    <li>
+                        <a href="{{ path('admin_gites') }}" class="btn btn-primary">
+                            Retour à la liste
+                        </a>
+                    </li>
+                    <li class="pull-right">{{ form(delete_form) }}</li>
+                </ul>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+              La Vignette principale de ce Gîte est " {{ entity.vignette   }} (n°{{ entity.vignette.id }}) " <br>
+                <img src='{{ pathDefault ~ entity.vignette.getWebPath }}' style="width:400px;" class="img-thumbnail">
+                <br>
+                <h3>Descriptions archivées</h3>
+               il y a  {{ versions | length -1}} ancienne(s) version(s) de la description archivée(s)<br>
+                {% set ctr=1 %}
+                {%  for version in versions %}
+                   {% if loop.index>1 %}
+                   -> Version n°  {{ ctr }} du {{ (version.loggedAt)|date("Y-m-d H:i:s") }}
+                       <br>
+                           {% for d in version.data %}
+                              <div class="alert alert-success"> {{ d | raw }}</div><hr>
+                               {% endfor %}
+
+                    [Restaurer cette version]<hr>{% set ctr = ctr+1 %} {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+
+{% endblock %}

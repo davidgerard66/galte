@@ -1,0 +1,80 @@
+{% extends "::layout/layoutadmin.html.twig" %}
+
+{% block body -%}
+    <h1>Gite " {{ entity.nom }} "</h1>
+
+    <table class="table table-striped table-hover" >
+        <tbody>
+
+            <tr>
+                <th>Nom</th>
+                <td>{{ entity.nom }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ entity.ville }}</td>
+            </tr>
+            <tr>
+                <th>Epis</th>
+                <td>{{ entity.epis }}</td>
+            </tr>
+            <tr>
+                <th>Personnes</th>
+                <td>{{ entity.personnes }}</td>
+            </tr>
+            <tr>
+                <th>Chambres</th>
+                <td>{{ entity.chambres }}</td>
+            </tr>
+            <tr>
+                <th>Surface</th>
+                <td>{{ entity.surface }}</td>
+            </tr>
+            <tr>
+                <th>Animauxacceptes</th>
+                <td>{{ entity.animauxAcceptes }}</td>
+            </tr>
+            <tr>
+                <th>Cvacceptes</th>
+                <td>{{ entity.cvAcceptes }}</td>
+            </tr>
+            <tr>
+                <th>Urldispo</th>
+                <td>{{ entity.urlDispo }}</td>
+            </tr>
+            <tr>
+                <th>Urltarif</th>
+                <td>{{ entity.urlTarif }}</td>
+            </tr>
+            <tr>
+                <th>Urlmap</th>
+                <td>{{ entity.urlMap }}</td>
+            </tr>
+            <tr>
+                <th>Equipements</th>
+                <td>{{ entity.equipements }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Description courte</th>
+                <td>{{ entity.descriptioncourte }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="list-unstyled list-inline">
+    <li>
+        <a href="{{ path('admin_gites') }}">
+            Retour à la liste
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_gites_edit', { 'id': entity.id }) }}" class="btn btn-warning">
+Modifier        </a>
+    </li>
+    <!--<li>{{ form(delete_form) }}</li>-->
+</ul>
+{% endblock %}

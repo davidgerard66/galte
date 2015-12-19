@@ -1,0 +1,16 @@
+gites_admin_slides:
+    resource: "@GitesBundle/Resources/config/routing/routingSlidesAdmin.yml"
+    prefix:   /admin/slides
+
+gites_admin_gites:
+    resource: "@GitesBundle/Resources/config/routing/routingGitesAdmin.yml"
+    prefix:   /admin/gites
+
+gites_admin_media:
+    resource: "@GitesBundle/Resources/config/routing/routingMediaAdmin.yml"
+    prefix:   /admin/media
+
+routingGites:
+    resource: "@GitesBundle/Resources/config/routing/routingGites.yml"
+    prefix: /
+

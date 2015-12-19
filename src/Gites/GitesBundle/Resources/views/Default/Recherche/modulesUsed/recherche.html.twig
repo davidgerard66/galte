@@ -1,0 +1,5 @@
+<form action="{{ path('rechercheProduits') }}" method="post" class="navbar-form form-search pull-right">
+{{ form_widget(form.recherche) }}
+       <button type="submit" class="btn">Rechercher</button>
+{{ form_widget(form) }} <!-- ca met un token hidden pour la sécu ptet? a veriofioer .dav 02112015-->
+</form>

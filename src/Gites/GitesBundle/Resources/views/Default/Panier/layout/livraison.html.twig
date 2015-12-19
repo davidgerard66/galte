@@ -1,0 +1,52 @@
+{% extends "::layout/layout.html.twig" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <h2>Livraison</h2>
+                <div id="collapseOne" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                        <div class="span4">
+                            <form action="{{ path("validation") }}" method="post">
+                                <h4>{{ 'title.shipping_address'|trans }}</h4>
+                               {% if utilisateur.adresses|length !=0 %}
+                                {% for adresse in utilisateur.adresses %}
+                                <label class="radio">
+                                    <input type="radio" name="livraison" value="{{ adresse.id }}" {%  if loop.index0==0 %}checked="checkec"{% endif %}>
+                                   {{ adresse.adresse }},{{ adresse.cp ~' '~ adresse.ville }} <a href="{{ path('supprimerAdresse',{'id':adresse.id}) }}"><i class="icon-trash"></i></a>
+                                </label>
+                                {% endfor %}
+
+                                {% endif %}
+
+                                <h4>Adresse de facturation</h4>
+                                {% if utilisateur.adresses|length !=0 %}
+                                    {% for adresse in utilisateur.adresses %}
+                                        <label class="radio">
+                                            <input type="radio" name="facturation" value="{{ adresse.id }}" {%  if loop.index==0 %}checked="checkec"{% endif %}>
+                                            {{ adresse.adresse }},{{ adresse.cp ~' '~ adresse.ville }} <a href="{{ path('supprimerAdresse',{'id':adresse.id}) }}"><i class="icon-trash"></i></a>
+                                        </label>
+                                    {% endfor %}
+                                    <button class="btn btn-primary">Valider mes adresses</button>
+                                {% else %}
+                                    Ajouter une adresse de livraison avec le formulaire ci-contre
+                                {% endif %}
+                            </form>
+                        </div>
+
+
+                        <div class="span4 offset2">
+                            <h4>{{ 'title.add_address'|trans }}</h4>
+                            <form action="{{ path('livraison') }}" method="post">
+                               {{ form_widget(form) }}
+
+                                <br />
+                                <button class="btn btn-primary" type="submit">Ajouter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+{% endblock %}

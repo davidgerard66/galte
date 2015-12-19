@@ -1,0 +1,30 @@
+admin_gites:
+    path:     /
+    defaults: { _controller: "GitesBundle:GitesAdmin:index" }
+
+admin_gites_show:
+    path:     /{id}/show
+    defaults: { _controller: "GitesBundle:GitesAdmin:show" }
+
+admin_gites_new:
+    path:     /new
+    defaults: { _controller: "GitesBundle:GitesAdmin:new" }
+
+admin_gites_create:
+    path:     /create
+    defaults: { _controller: "GitesBundle:GitesAdmin:create" }
+    methods:  POST
+
+admin_gites_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "GitesBundle:GitesAdmin:edit" }
+
+admin_gites_update:
+    path:     /{id}/update
+    defaults: { _controller: "GitesBundle:GitesAdmin:update" }
+    methods:  [POST, PUT]
+
+admin_gites_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "GitesBundle:GitesAdmin:delete" }
+    methods:  [POST, DELETE]

@@ -1,0 +1,22 @@
+{% extends "::layout/layout.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% block description %} Gites Galté : contactez-nous {% endblock %}
+
+
+{%  block body %}
+
+
+<div style="height:90px;"></div>
+    <div class="container">
+        <h1>Contactez-nous</h1><small>Pour une demande de disponibilités, ou une réservation, <a href="#">vous pouvez accéder a la centrale de réservation des gites de fRance</a></small>
+        <br><br>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" >
+                {{ form(form) }}
+
+            </div>
+        </div>
+    <hr class="featurette-divider">
+    </div>
+
+{% endblock %}

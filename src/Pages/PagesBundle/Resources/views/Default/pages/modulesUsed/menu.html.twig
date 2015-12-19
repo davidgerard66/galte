@@ -1,0 +1,4 @@
+{% for page in pages %}
+   <a href="{{ path("pages",{'slug' : page.slug}) }}"> {{ page.titre }}</a> &middot;
+
+{% endfor %}

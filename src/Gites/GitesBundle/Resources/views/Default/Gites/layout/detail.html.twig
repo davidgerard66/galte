@@ -1,0 +1,164 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block title %} Gites ruraux cerdagne, {{ gite.nom ~' à '~gite.ville }} {% endblock %}
+{% block description %} Gites ruraux cerdagne, {{ gite.nom ~' à '~gite.ville }} {% endblock %}
+
+
+{%  block body %}
+
+
+    <div class="container-fluid">
+        <div class="row container-gite-detail" >
+<div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                    <h2>{{ gite.nom }}
+                        {% for i in range(1, gite.epis) %}
+                           <small> <i class='glyphicon glyphicon-star' style="color:green" title="ce gîte de France à {{ gite.ville }} est classé {{ gite.epis }} épis"></i></small>
+                        {% endfor %}
+                        <br><small class="lienscroll">
+                            <i class="glyphicon glyphicon-map-marker" style="color:green;font-size:18px;"></i>
+                            Commune de {{ gite.ville }} - <a href='#plangite' style="text-decoration:underline;" >Voir la carte</a>
+                            </small>
+
+                        <p style="margin-top:-26px;" class="pull-right">
+                        <a href="{{ gite.urlDispo }}" target="_blank" class="btn btn-primary" style="width:120px;" title="Réservez en ligne sur le site des Gites de France" >Réserver</a>
+                       <a href="" class="glyphicon glyphicon-share bt_partager" title="partager" style="text-decoration:none;text-align: center ;color:white;font-size:16px;padding:7px;border-radius:50%;background-color: #265B89"></a>
+                        </p>
+                    </h2>
+                    <ul class="list-unstyled list-inline btn-detail-menu lienscroll" >
+                        <li>
+                            <a class="btn"  href="#descriptionGite">Description du gîte</a>
+                        </li>
+                        <li>
+                            <a class="btn" href="#equipementsGite">Détails des équipements</a>
+                        </li>
+                        <li>
+                            <a class="btn" href="#aSavoirGite">À savoir avant de partir</a>
+                        </li>
+                        <li>
+                            <a class="btn" href="#ActivitesGite">Activités aux alentours</a>
+                        </li>
+                        <li>
+                            <a class="btn" href="{{ path('contact') }}">Contacter le propriétaire</a>
+                        </li>
+                    </ul>
+
+            </div>
+
+       <div class="col-lg-3"></div>
+
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6" >
+
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        {% for slide in slides %}
+                            <li data-target="#myCarousel" data-slide-to="{{ loop.index - 1 }}"  {%  if loop.index == 1 %} class="active" {% endif %} ></li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="carousel-inner" role="listbox">
+                        {% for slide in slides %}
+
+                        {%  if loop.index == 1 %}
+                        <div class="item active">
+                            {% else %}
+                            <div class="item">
+                                {% endif %}
+                                <img class="first-slide" src="{{ pathDefault ~ slide.getWebPath }}" alt="First slide">
+                                <div class="container">
+                                    <div class="carousel-caption">
+                                        <h1>{{ slide.name }} </h1>
+                                        <p>{% for i in range(1, gite.epis) %}
+                                                <i class='glyphicon glyphicon-star' title="ce gîte de France à {{ gite.ville }} est classé {{ gite.epis }} épis"></i>
+                                            {% endfor %}
+                                            {{ gite.nom }} à {{ gite.ville }}</p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+
+
+        <div class="row" id="descriptionGite">
+           <div class="col-lg-3"></div>
+            <div class="col-lg-4">
+                <h2 class="title=">Description du gîte :</h2><br>
+                {{ gite.description | raw }}
+            </div>
+            <div class="col-lg-2">
+                {% set details = {'Capacité': '2 à ' ~ gite.personnes ~' personnes',
+                'Classement': gite.epis ~' épis',
+                'Nbre de chambres': gite.chambres,
+                'Surface': gite.surface ~' m²',
+                'Animaux acceptés': gite.animauxAcceptes ==1 ? 'Oui' : 'Non',
+                'CV acceptés': gite.cvAcceptes ==1 ? 'Oui' : 'Non'
+                }
+                %}
+                <br>
+                <table class="table table-striped">
+                    {% for key,value in details %}
+                        <tr><td>
+                                {{ key }}
+                            </td>
+                            <td>
+                                {{ value }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                <p class="pull-right lienscroll"><a href="#top"> <i class=" glyphicon glyphicon-chevron-up"></i> Retour en haut de page</a></p>
+            </div>
+           <div class="col-lg-3"></div>
+        </div>
+
+
+        <div class="row" id="equipementsGite">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <h2 class="title=">Equipements du gîte :</h2><br>
+                {{ gite.equipements | raw }}
+                <p class="pull-right lienscroll"><a href="#top"> <i class=" glyphicon glyphicon-chevron-up"></i> Retour en haut de page</a></p>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <h2 class="title=" id="plangite">Emplacement du gîte {{ gite.nom }} :</h2><small>Commune de {{ gite.ville }} en Cerdagne</small>
+                <iframe src="{{ gite.urlMap }}" width="920" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <p class="pull-right lienscroll"><a href="#top"> <i class=" glyphicon glyphicon-chevron-up"></i> Retour en haut de page</a></p>
+            </div>
+            <div class="col-lg-3">  </div>
+        </div>
+
+
+    </div>
+<br><br><br><br>
+
+
+{% endblock %}

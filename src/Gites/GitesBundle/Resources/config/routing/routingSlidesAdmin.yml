@@ -1,0 +1,30 @@
+admin_slides:
+    path:     /
+    defaults: { _controller: "GitesBundle:SlidesAdmin:index" }
+
+admin_slides_show:
+    path:     /{id}/show
+    defaults: { _controller: "GitesBundle:SlidesAdmin:show" }
+
+admin_slides_new:
+    path:     /new
+    defaults: { _controller: "GitesBundle:SlidesAdmin:new" }
+
+admin_slides_create:
+    path:     /create
+    defaults: { _controller: "GitesBundle:SlidesAdmin:create" }
+    methods:  POST
+
+admin_slides_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "GitesBundle:SlidesAdmin:edit" }
+
+admin_slides_update:
+    path:     /{id}/update
+    defaults: { _controller: "GitesBundle:SlidesAdmin:update" }
+    methods:  [POST, PUT]
+
+admin_slides_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "GitesBundle:SlidesAdmin:delete" }
+    methods:  [POST, DELETE]

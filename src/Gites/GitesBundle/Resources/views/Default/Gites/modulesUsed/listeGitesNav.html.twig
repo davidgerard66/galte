@@ -1,0 +1,9 @@
+{% for gite in gites %}
+    <li> <a href="{{ path('gite', {'slug':gite.slug}) }}">  {{ gite.nom }}</a> </li>
+{% endfor %}
+
+<!--
+<li class="active"><a href="#">Les Rosiers</a></li>
+<li><a href="#about">Les Jonquilles</a></li>
+<li><a href="#contact">Les Coquelicots</a></li>
+-->
