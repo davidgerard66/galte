@@ -1,7 +1,7 @@
 .pastillegite:hover {
 
 
-    border:6px #8B9C85 solid;
+    border:6px #4DA64D solid;
     cursor:pointer;
 
 }
@@ -9,6 +9,7 @@
 
 
     border:6px transparent solid;
+    border-radius:50%;
 
 }
 .container-gite-detail{margin-top:80px; margin-bottom:0px;}

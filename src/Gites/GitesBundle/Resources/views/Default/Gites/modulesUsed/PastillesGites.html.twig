@@ -4,7 +4,7 @@
 
         <!-- vignette et titre -->
         <a class='liengris'  href='{{ path('gite', {'slug':gite.slug}) }}' title="gite rural {{ gite.nom }} à {{ gite.ville }} classé {{ gite.epis }} épis">
-        <img class="img-circle pastillegite" src="{{ pathDefault ~ gite.vignette.getWebPath }}" alt="gite rural {{ gite.nom }} à {{ gite.ville }}" width="190"  height="190">
+        <img class="pastillegite" src="{{ pathDefault ~ gite.vignette.getWebPath }}" alt="gite rural {{ gite.nom }} à {{ gite.ville }}" width="190"  height="190">
         </a>
         <h2>
             <a class='liengris'  href='{{ path('gite', {'slug':gite.slug}) }}'>{{ gite.nom }}</a>
